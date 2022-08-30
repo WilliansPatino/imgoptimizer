@@ -1,0 +1,26 @@
+{
+  "name": "my_console-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jpg_optimise.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "img-optimize.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-alerts": "^1.2.2",
+    "cli-color": "^2.0.3",
+    "colors": "^1.4.0",
+    "font-awesome": "^4.7.0",
+    "fs": "^0.0.1-security",
+    "imagemin": "^8.0.1",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "nodemon": "^2.0.19",
+    "uuid": "^8.3.2",
+    "yargs": "^17.5.1"
+  }
+}
