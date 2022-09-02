@@ -1,30 +1,41 @@
-//  Genera el nuevo nombre de la imagen
+const fs = require('fs')
+const { directoryManager } = require('./dir-manager')
+
+
 const allowedExtensions =  ['png','jpg','jpeg','gif','svg','webp']
 
 
-const filesValidator = (file = '', validExtensions = allowedExtensions) => {
+const filesValidator = (file = '', 
+        source_dir = '',
+        target_dir = '',
+        validExtensions = allowedExtensions, 
+        verbose = false) => {
 
   
+  
   try {
-    
+
     if (file.length === 0) {
-      throw ('No se recibió el nombre del archivo')
+      throw ('No se recibió el nombre del archivo') 
     }
 
-  console.log('Archivo >>> ', file)
+
   
   const shorter_filename = file.split('.');
   const extension_file = shorter_filename[ shorter_filename.length -1 ];
   
   const validExt =   (validExtensions.includes(extension_file));
   
-  if ( !validExt ) {
-    throw  (`Extensión <.${extension_file}> no es procesable - Archivos permitidos: ${validExtensions} `);
+  if ( !validExt) {
+    throw (`<.${extension_file}> no es procesable de tipo: (${validExtensions})`)
   }
   // console.log(shorter_filename);
-  
-  // console.log('validExtensions >>> ',validExtensions);
-  console.log(`Válido: ${allowedExtensions}: `, validExtensions.includes(extension_file));
+
+  (verbose)
+  ?  console.log(`>> ${file} (${allowedExtensions}): `, validExtensions.includes(extension_file) ? 'tipo válido' : 'N/A' )
+  : ''
+
+
 
   return true;
 

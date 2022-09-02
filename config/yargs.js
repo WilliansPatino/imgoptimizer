@@ -19,7 +19,7 @@ const argv = require('yargs')
           alias: 'destino',
           type: 'string',
           demandOption: false,
-          default: './nuevas-imagenes-para-web',
+        //   default: './nuevas-imagenes-para-web',
           describe: colors.brightCyan('Directorio destino ')
       },
       'l': {
