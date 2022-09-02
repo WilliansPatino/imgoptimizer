@@ -11,15 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "checksum": "^1.0.0",
     "cli-alerts": "^1.2.2",
     "cli-color": "^2.0.3",
     "colors": "^1.4.0",
-    "font-awesome": "^4.7.0",
     "fs": "^0.0.1-security",
-    "imagemin": "^8.0.1",
-    "imagemin-jpegtran": "^7.0.0",
-    "imagemin-pngquant": "^9.0.2",
+    "md5-file": "^5.0.0",
     "nodemon": "^2.0.19",
+    "sharp": "^0.30.7",
     "uuid": "^8.3.2",
     "yargs": "^17.5.1"
   }

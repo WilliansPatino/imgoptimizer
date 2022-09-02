@@ -1,15 +1,13 @@
 
 // const yargs = require('yargs');
-const argv = require('../config/yargs');
+// const argv = require('../config/yargs');
 const colors = require('colors');
 const fs = require('fs')
 const path =require('path')
 const { v4: uuidv4 } = require('uuid');
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant')
-
 const alert = require('cli-alerts');
+
+
 
 const { formatCLI,  
       error, 
@@ -23,6 +21,7 @@ const { formatCLI,
       danger,
       success,
       terminal} = require('./colors-formatting-cli');
+const getMD5file = require('./md5-files');
 
 
 const validExtensions = ['png','jpg','jpeg'];
@@ -75,49 +74,24 @@ const optimizeImages = async (source,
           const shorter_filename = file.split('.');
           const extension_file = shorter_filename[ shorter_filename.length -1 ];
   
-       
-  
           // to test output
           // console.log(item)
-          
           const item = {index, file}
+
+          // console.log('Procesamiento de ',file)
+            // md5 hash of the file
+        // const md5hash_file = getMD5file(file)
+
+        // const temp_namefile = md5hash_file + '.' + extension_file
           
-          if ( validExtensions.includes(extension_file) ) {
-            
-
-            // return console.log(formatCLI('light', file ) );
-            return alert({type:'success',msg: file, name: 'Procesada'})
-
-            total ++
-  
-               // console.log(shorter_filename)
-          // console.log('imagen: ',file)
-  
-  
-            // console.log(formatCLI('ok', item ))
-  
-  
-            // assign different name to file, even to same file uploaded
-          const temp_namefile = uuidv4() + '.' + extension_file;
-  
-          // console.log(index+'. '+file+' > '+` ${temp_namefile}`)
-  
-          // const img = await comprimirImagen(file, argv.optimizar )
-  
-          } 
+      const temp_namefile = uuidv4() + '.' + extension_file;
+          
+         
           
         }); // foreach
         
         return total;
   });
-
-  //   return console.log(` --- Parámetros ---
-  //   Origen              : ${pwd}
-  //   Destino             : ${destination}
-  //   % optimización      : ${quality}
-  //   Mostrar en consola  : ${show}
-  //  `)
-
 
   }
   catch (err) {
