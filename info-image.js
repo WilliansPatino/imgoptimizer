@@ -13,7 +13,7 @@ const { imageProcessing } = require('./controllers/image-processing');
 
 console.clear();
 
-imageProcessing(argv.s, undefined, undefined, false, argv.i, argv.o);
+imageProcessing(argv.s, undefined, undefined, true, argv.i, argv.o);
 /*
 .then ( newImage => console.log('Total imágenes:', newImage))
 .catch (err => console.log(err));  

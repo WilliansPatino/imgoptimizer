@@ -7,21 +7,28 @@ const { filesValidator } = require('./files-validator')
 
 const getMD5file = require('./md5-files')
 const { directoryManager } = require('./dir-manager')
-const { getMetadataOfFiles } = require('./get-metadata')
 
-const optimizeImage = async(file, source = '', destination = '') => {
+const getMetadataOfFiles = async(file, source = '', destination = '') => {
 
   let image_toupdate;
 
   // directory management
-  const { origen, target } = directoryManager(file, source, destination)
+  const { origen } = directoryManager(file, source)
 
-  // absolute  target path
-  const abs_target = path.join(target, file) // (o!o)
+    //  file extension check
+    const valid_extension = filesValidator(file, source)
+    if (!valid_extension) {
+      return {
+        msg: 'No aplica para procesar',
+        file: ` ${ file}`
+      }
+    }
 
   // absolute source path
   const abs_source = path.join(origen, file) // (o!o)
 
+
+  /*  TODO ELIMINAR ESTE MODULO. NO APLICA A ESTE
   //  file extension check
   const valid_extension = filesValidator(file, source, destination)
   if (!valid_extension) {
@@ -30,7 +37,10 @@ const optimizeImage = async(file, source = '', destination = '') => {
       file: ` ${ file}`
     }
   }
+  */
 
+  /*
+  //  TODO   ELIMINAR ESTE BLOQUE
   // target filename management
   const shorter_filename = file.split('.')
   const extension_file = shorter_filename[shorter_filename.length - 1]
@@ -47,6 +57,10 @@ const optimizeImage = async(file, source = '', destination = '') => {
   // location new image
   const abspath_newimg = path.join(target, md5_imgname) // (o!o)
 
+*/
+
+
+
     
   // --- testing 
 /*   console.log('1) IMG SOURCE: ', origen)
@@ -57,7 +71,8 @@ const optimizeImage = async(file, source = '', destination = '') => {
   console.log('6) LOCATION NEW IMG: ', abspath_newimg)
  */
   
-
+  /*
+  // TODO  eliminar este bloue
   if (!fs.existsSync(target)) {
     // check exiting new location
     fs.mkdirSync(target, {recursive: true});
@@ -69,33 +84,29 @@ const optimizeImage = async(file, source = '', destination = '') => {
     fs.unlinkSync(abspath_newimg)
   }
 
+  */
 
-
+  // TODO  SUSPENDER TEMPOral
   
   try {
-    const optimizedImage = await sharp(abs_source)
-      .resize({
-        width: 1000,
-        // height: 97
-      })
-      .toFormat('jpg', { mozjpeg: true })
-      .toFile(abspath_newimg);
+
+
+      const metadata = await sharp(abs_source).metadata()
 
       return {
-        'file': file,
-        'abs_source': abs_source,
-        'abs_target': abs_target,
-        'md5_imgname': md5_imgname,
-        'abspath_newimg': abspath_newimg,
-        'optimizeImage': optimizeImage,
-        'metadata':
-        {
-          'isProgresive':  (await sharp(abs_source).metadata()).isProgressive,
-          'ancho': (await sharp(abs_source).metadata()).width,
-          'dpi': (await sharp(abs_source).metadata()).density,
+        'Metadata': {
+        ancho: metadata.width,
+        alto: metadata.height,
+        formato: metadata.format,
+        densidad: metadata.density,
+        'imagen-progresiva': metadata.isProgressive
+        },
+        'file': {
+          'name': file,
+          'Destination': abs_source,
+          'Absolute path': path.join(process.cwd(), abs_source)
         }
       }
-        
 
 
   } catch (error) {
@@ -107,5 +118,5 @@ const optimizeImage = async(file, source = '', destination = '') => {
 }// optimizeImage
 
 module.exports = {
-  optimizeImage
+  getMetadataOfFiles
 }

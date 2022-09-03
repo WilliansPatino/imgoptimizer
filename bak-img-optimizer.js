@@ -7,11 +7,36 @@ const { filesValidator } = require('./files-validator')
 
 const getMD5file = require('./md5-files')
 const { directoryManager } = require('./dir-manager')
-const { DESTRUCTION } = require('dns')
 
+const getMetadataOneFile = async (file) => {
+  // const { name } = file
+  // console.log('Nombre', name)
 
+  try {
+    const valid_extension = filesValidator(file, true)
+    if (!valid_extension) {
+      return false
+    }
 
-const getMetadataOfFiles = async(file, source = '', destination = '') => {
+    
+    // console.log('--- Metadata --')
+    console.log('Archivo: ', file)
+    const metadata = await sharp(file).metadata()
+
+    return {
+      msg: ' Metadata actual ',
+      ancho: metadata.width,
+      alto: metadata.height,
+      formato: metadata.format,
+      densidad: metadata.density,
+      'imagen-progresiva': metadata.isProgressive,
+    }
+  } catch (error) {
+    console.log(`An error occurred during processing: ${error}`)
+  }
+}
+
+const optimizeImage = async(file, source = '', destination = '') => {
   // let images_newdir = destination
 
   let image_toupdate;
@@ -76,18 +101,23 @@ const getMetadataOfFiles = async(file, source = '', destination = '') => {
 
   
   try {
-
-
-      const metadata = await sharp(file).metadata()
+    const optimizedImage = await sharp(abs_source)
+      .resize({
+        width: 1000,
+        // height: 97
+      })
+      .toFormat('jpg', { mozjpeg: true })
+      .toFile(abspath_newimg);
 
       return {
-        msg: ' Metadata actual ',
-        ancho: metadata.width,
-        alto: metadata.height,
-        formato: metadata.format,
-        densidad: metadata.density,
-        'imagen-progresiva': metadata.isProgressive
+        'file': file,
+        'abs_source': abs_source,
+        'abs_target': abs_target,
+        'md5_imgname': md5_imgname,
+        'abspath_newimg': abspath_newimg,
+        'optimizeImage': optimizeImage
       }
+        
 
 
   } catch (error) {
@@ -99,5 +129,6 @@ const getMetadataOfFiles = async(file, source = '', destination = '') => {
 }// optimizeImage
 
 module.exports = {
-  getMetadataOfFiles
+  getMetadataOneFile,
+  optimizeImage,
 }

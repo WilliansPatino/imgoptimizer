@@ -15,7 +15,7 @@ const argv = require('./config/yargs')
 
 console.clear();
 
-imageProcessing(argv.s, argv.p, argv.d, argv.l, 'optimize' );
+imageProcessing(argv.s, argv.p, argv.d, argv.l, false, true );
 /*
 .then ( newImage => console.log('Total imágenes:', newImage))
 .catch (err => console.log(err));  

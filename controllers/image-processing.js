@@ -27,7 +27,7 @@ const getMD5file = require('../helpers/md5-files')
 const { filesValidator } = require('../helpers/files-validator')
 
 const { optimizeImage } = require('../helpers/img-optimizer')
-const { getMetadataOfFiles } = require('../helpers/see-infoimage')
+const { getMetadataOfFiles } = require('../helpers/get-metadata')
 
 /* const validExtensions = ['png','jpg','jpeg'];
 
@@ -54,13 +54,12 @@ let item = 0
 */
 
 const imageProcessing = (
-  source,
-  quality = 25,
-  destination,
-  show = false,
-  info,
-  optimize,
-) => {
+          source,
+          quality = 25,
+          destination,
+          show = false,
+          info,
+          optimize  ) => {
   // Requirements
   if (!info && !optimize) {
     return console.log(`Debe indicar
@@ -69,7 +68,7 @@ const imageProcessing = (
             -o, --optimizar  Optimizar archivos de imágenes `)
   }
 
-  // return console.log(`I: ${info} -- O: ${optimize}`)
+  // return console.log(`I: ${info} -- O: ${optimize} `)
 
   if (!source) {
     return console.log(formatCLI('warning', 'Debe indicar el directorio'))
@@ -86,6 +85,7 @@ const imageProcessing = (
   )
 
     try {
+
       const pwd =
         path.dirname(source) === '.' ? showDir('Actual') : showDir(source)
 
@@ -114,10 +114,9 @@ const imageProcessing = (
           } // optimize
 
           if (info) {
-            const objImageInfo = 
-            getMetadataOfFiles(file, source, destination, true)
+            
+            const objImageInfo = getMetadataOfFiles(file, source, destination)
             .then((img) => {
-              total++
               console.log('image_info:', img)
             })
             .catch((err) => console.log(err))
