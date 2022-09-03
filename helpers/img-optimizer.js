@@ -9,12 +9,15 @@ const getMD5file = require('./md5-files')
 const { directoryManager } = require('./dir-manager')
 const { getMetadataOfFiles } = require('./get-metadata')
 
-const optimizeImage = async(file, source = '', destination = '') => {
+const optimizeImage = async(file, 
+  source = '', 
+  destination = '') => {
 
   let image_toupdate;
 
   // directory management
-  const { origen, target } = directoryManager(file, source, destination)
+  const { origen, target } = 
+  directoryManager(file, source, destination, false)
 
   // absolute  target path
   const abs_target = path.join(target, file) // (o!o)
@@ -61,7 +64,7 @@ const optimizeImage = async(file, source = '', destination = '') => {
   if (!fs.existsSync(target)) {
     // check exiting new location
     fs.mkdirSync(target, {recursive: true});
-    console.log('No exite directorio destino. Creado!!')
+    console.log('INFO: No existe directorio destino. Creado!!')
   }
 
   if (fs.existsSync(abspath_newimg)) {

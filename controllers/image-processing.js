@@ -28,6 +28,7 @@ const { filesValidator } = require('../helpers/files-validator')
 
 const { optimizeImage } = require('../helpers/img-optimizer')
 const { getMetadataOfFiles } = require('../helpers/get-metadata')
+const { directoryManager } = require('../helpers/dir-manager')
 
 /* const validExtensions = ['png','jpg','jpeg'];
 
@@ -57,7 +58,7 @@ const imageProcessing = (
           source,
           quality = 25,
           destination,
-          show = false,
+          show,
           info,
           optimize  ) => {
   // Requirements
@@ -104,6 +105,7 @@ const imageProcessing = (
           let total = 0
 
           if (optimize) {
+            // resize images
             const objImageInfo = optimizeImage(file, source, destination)
             .then((img) => {
               total++
@@ -114,7 +116,7 @@ const imageProcessing = (
           } // optimize
 
           if (info) {
-            
+            // List metadata
             const objImageInfo = getMetadataOfFiles(file, source, destination)
             .then((img) => {
               console.log('image_info:', img)
@@ -122,6 +124,7 @@ const imageProcessing = (
             .catch((err) => console.log(err))
 
           } // info: see metadata
+
 
         }) // foreach
       })

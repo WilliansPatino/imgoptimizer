@@ -2,12 +2,20 @@ const path = require('path') // to manage url  (o!o)
 const fs = require('fs')
 
 
-const directoryManager = (file, source = '', destination = '', verbose = false) => {
+const directoryManager = (file, 
+  source = '', 
+  destination = '', verbose = false) => {
 
-  let target_dir_new_images = destination;
+   // check if directory exists
+   if ( !fs.existsSync(source) ) {
+    return console.log(`\n El directorio << ${source} >> no existe. Intente escribiendo la ruta completa`)
+  }
+
+  let target_newimages = destination;
 
   let images_source_dir = source;
 
+  // return console.log(`S: ${source} -- D: ${destination} -- verbose: ${verbose}`)
 
     // images source directory
     if (source.length === 0 || typeof source === undefined) {
@@ -32,21 +40,25 @@ const directoryManager = (file, source = '', destination = '', verbose = false) 
       ? console.log('El directorio destino no ha sido fijado') 
       : ''
   
-      target_dir_new_images = path.join(images_source_dir, 'imagenes-optimizadas');
+      target_newimages = path.join(images_source_dir, 'imagenes-optimizadas');
 
       (verbose) 
-      ? console.log(`Por omisión, las imágenes seran procesadas en: ${target_dir_new_images}`)
+      ? console.log(`Por omisión, las imágenes seran procesadas en: ${target_newimages}`)
       : ''
 
+
+
     } else {
-       target_dir_new_images = path.join(images_source_dir, destination)
+
+       target_newimages = path.join( destination);
+
       (verbose)
-      ? console.log(`Las imágenes procesadas se copiarán en : ${target_dir_new_images}`)
+      ? console.log(`Las imágenes procesadas se copiarán en : ${target_newimages}`)
       : ''
     }
 
     return { 'origen':images_source_dir, 
-            'target': target_dir_new_images 
+            'target': target_newimages 
     }
 
     
